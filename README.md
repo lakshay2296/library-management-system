@@ -246,6 +246,10 @@ Project changes are now version-controlled and recoverable.
 * Added project description.
 * Added technology tags.
 
+### Result
+
+The project is documented, version-controlled, and publicly accessible through GitHub for portfolio and interview purposes.
+
 ## Author
 
 Lakshay
