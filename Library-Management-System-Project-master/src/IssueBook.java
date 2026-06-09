@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.text.ParseException;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -159,6 +160,16 @@ public void clear(){
         }
         else{
             try{
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+                Date issueDate = sdf.parse(txtissuedate.getText().trim());
+                Date dueDate = sdf.parse(txtduedate.getText().trim());
+
+                if(dueDate.before(issueDate)){
+                    JOptionPane.showMessageDialog(this,
+                            "Due Date cannot be earlier than Issue Date");
+                    return;
+                }
             pst=c.prepareStatement("UPDATE `library`.`book` SET `status` = 'Issued', issue = ?, due = ?,studentid =? WHERE (`id` = ?)");
             pst.setString(1, txtissuedate.getText());
             pst.setString(2, txtduedate.getText());
@@ -167,7 +178,11 @@ public void clear(){
             pst.executeUpdate();
             JOptionPane.showMessageDialog(this, "Book Issued");
             clear();
-            } catch (SQLException ex) {
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter Due Date in dd/MM/yyyy format");
+            }
+            catch (SQLException ex) {
                 Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
